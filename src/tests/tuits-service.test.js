@@ -3,6 +3,7 @@
 //  */
 import {createTuit,deleteTuit,deleteTuitByContent} from "../services/tuits-service";
 import {deleteUsersByUsername} from "../services/users-service"
+import {createUser} from "./services";
 // import axios from "axios";
 // axios.defaults.adapter = require('axios/lib/adapters/http');
 
@@ -11,8 +12,8 @@ describe('can create tuit with REST API', () => {
     const user1 ={
         username: 'ellenripley',
         password: 'lv426',
-        email: 'ellenripley@aliens.com',
-        _id: 134246
+        email: 'ellenripley@aliens.com'
+
     };
     const tuit1 = {
         tuit: "tuittest1",
@@ -21,20 +22,30 @@ describe('can create tuit with REST API', () => {
 
     };
     beforeAll(() => {
-        deleteTuitByContent(tuit1.tuit);
-        deleteUsersByUsername(user1.username);
+        console.log("hello");
+        let promises = []
 
-        return
+        promises.push(deleteTuitByContent(tuit1.tuit));
+        promises.push(deleteUsersByUsername(user1.username));
+        return Promise.all(promises);
+
     });
 
     afterAll(() => {
-        return deleteTuitByContent(tuit1.tuit);
+        let promises = []
+        promises.push(deleteTuitByContent(tuit1.tuit));
+        promises.push(deleteUsersByUsername(user1.username));
+        return Promise.all(promises);
     });
 
     test('can insert with REST API', async () => {
 
         try {
-            const newTuit = await createTuit(user1._id, tuit1);
+            console.log("hello2");
+            const newUser = await createUser(user1);
+            console.log(newUser);
+            const newTuit = await createTuit(newUser._id, tuit1);
+            console.log(newTuit);
             // testid = newTuit._id;
             expect(newTuit.tuit)
                 .toEqual(tuit1.tuit);
@@ -43,6 +54,8 @@ describe('can create tuit with REST API', () => {
             expect(newTuit.postedOn)
                 .toEqual(tuit1.postedOn);
         } catch (err) {
+            console.log("error !");
+            console.log(err);
             expect(err).toEqual(new Error());
         }
     });
