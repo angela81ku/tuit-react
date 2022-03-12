@@ -22,20 +22,27 @@ describe('can create tuit with REST API', () => {
 
     };
     beforeAll(() => {
-        console.log("hello");
-        let promises = []
 
-        promises.push(deleteTuitByContent(tuit1.tuit));
-        promises.push(deleteUsersByUsername(user1.username));
-        return Promise.all(promises);
+        // let promises = []
+        //
+        // promises.push(deleteTuitByContent(tuit1.tuit));
+        // promises.push(deleteUsersByUsername(user1.username));
+        // return Promise.all(promises);
+
+        deleteTuitByContent(tuit1.tuit);
+        deleteUsersByUsername(user1.username);
+        return;
 
     });
 
     afterAll(() => {
-        let promises = []
-        promises.push(deleteTuitByContent(tuit1.tuit));
-        promises.push(deleteUsersByUsername(user1.username));
-        return Promise.all(promises);
+        // let promises = []
+        // promises.push(deleteTuitByContent(tuit1.tuit));
+        // promises.push(deleteUsersByUsername(user1.username));
+        // return Promise.all(promises);
+        deleteTuitByContent(tuit1.tuit);
+        deleteUsersByUsername(user1.username);
+        return;
     });
 
     test('can insert with REST API', async () => {
