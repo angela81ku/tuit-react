@@ -3,7 +3,8 @@ import {
   deleteUsersByUsername, findAllUsers,
   findUserById
 } from "../services/users-service";
-
+// import axios from "axios";
+// axios.defaults.adapter = require('axios/lib/adapters/http');
 describe('createUser', () => {
   // sample user to insert
   const ripley = {
