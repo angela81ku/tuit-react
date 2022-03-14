@@ -7,7 +7,7 @@ import axios from "axios";
 import {UserList} from "../components/profile/user-list";
 import {findAllUsers} from "../services/users-service";
 
-// jest.mock('axios');
+ jest.mock('axios');
 
 const MOCKED_USERS = [
   "alice", "bob", "charlie"
@@ -23,34 +23,24 @@ const MOCKED_TUITS_String = [
     "alice's tuit","bob's tuit","charlie's tuit"
 ];
 
-test('tuit list renders static tuit array', () => {
-  render(
-      <HashRouter>
-          <Tuits tuits={MOCKED_TUITS}/>
-      </HashRouter>);
-  let linkElement = screen.getByText(/alice's tuit/i);
-  expect(linkElement).toBeInTheDocument();
-  linkElement = screen.getByText(/bob's tuit/i);
-  expect(linkElement).toBeInTheDocument();
-  linkElement = screen.getByText(/charlie's tuit/i);
-  expect(linkElement).toBeInTheDocument();
-});
 
-test('tuit list renders async', async () => {
-    const tuits = await findAllTuits();
+// See tuit-list-mock.test.js
+test('tuit list renders mocked', async () => {
+    axios.get.mockImplementation(() =>
+        Promise.resolve({ data: {tuits: MOCKED_TUITS} }));
+    // the function below can put any other function, it doesn't matter...
+    const response = await findAllTuits();
+    const tuits = response.tuits;
 
     render(
         <HashRouter>
             <Tuits tuits={tuits}/>
         </HashRouter>);
-    let linkElement = screen.getByText(/alice's first tuit/i);
+
+    let linkElement = screen.getByText(/alice's tuit/i);
     expect(linkElement).toBeInTheDocument();
-    linkElement = screen.getByText(/@SpaceX Dragon spacecraft/i);
+    linkElement = screen.getByText(/bob's tuit/i);
     expect(linkElement).toBeInTheDocument();
-    linkElement = screen.getByText(/rover landed/i);
+    linkElement = screen.getByText(/charlie's tuit/i);
     expect(linkElement).toBeInTheDocument();
-})
-// See tuit-list-mock.test.js
-// test('tuit list renders mocked', async () => {
-//
-// });
+});
