@@ -21,27 +21,23 @@ describe('can create tuit with REST API', () => {
     };
     beforeAll(() => {
 
-        // let promises = []
-        // promises.push(deleteTuitByContent(tuit1.tuit));
-        // promises.push(deleteUsersByUsername(user1.username));
-        // return Promise.all(promises);
-
-        deleteTuitByContent(tuit1.tuit);
-
-        deleteUsersByUsername(user1.username);
-        // console.log("here");
-        return;
+        let promises = []
+        promises.push(deleteTuitByContent(tuit1.tuit));
+        promises.push(deleteUsersByUsername(user1.username));
+        return Promise.all(promises);
+        //this won't work everytime!! need to return Promise.all to wait for every
+        // function's callback
+        // deleteTuitByContent(tuit1.tuit);
+        // deleteUsersByUsername(user1.username);
+        // return;
 
     });
 
     afterAll(() => {
-        // let promises = []
-        // promises.push(deleteTuitByContent(tuit1.tuit));
-        // promises.push(deleteUsersByUsername(user1.username));
-        // return Promise.all(promises);
-        deleteTuitByContent(tuit1.tuit);
-        deleteUsersByUsername(user1.username);
-        return;
+        let promises = []
+        promises.push(deleteTuitByContent(tuit1.tuit));
+        promises.push(deleteUsersByUsername(user1.username));
+        return Promise.all(promises);
     });
 
     test('can insert with REST API', async () => {
@@ -55,10 +51,10 @@ describe('can create tuit with REST API', () => {
 
             expect(newTuit.tuit)
                 .toEqual(tuit1.tuit);
-            // expect(newTuit.postedBy)
-            //     .toEqual(newUser._id);
-            // expect(newTuit.postedOn)
-            //     .toEqual(tuit1.postedOn);
+            expect(newTuit.postedBy)
+                .toEqual(newUser._id);
+            expect(newTuit.postedOn)
+                .toEqual(tuit1.postedOn);
         } catch (err) {
             // console.log("error !");
             // console.log(err);
@@ -115,15 +111,23 @@ describe('can retrieve a tuit by their primary key with REST API', () => {
 
     };
     beforeAll(() => {
-        deleteTuitByContent(tuit_test.tuit);
-        return deleteUsersByUsername(user_test.username);
+        let promises = []
+        promises.push(deleteTuitByContent(tuit_test.tuit));
+        promises.push(deleteUsersByUsername(user_test.username));
+        return Promise.all(promises);
+        // deleteTuitByContent(tuit_test.tuit);
+        // return deleteUsersByUsername(user_test.username);
 
     });
 
     afterAll(() => {
-        deleteTuitByContent(tuit_test.tuit);
-        deleteUsersByUsername(user_test.username);
-        return;
+        let promises = []
+        promises.push(deleteTuitByContent(tuit_test.tuit));
+        promises.push(deleteUsersByUsername(user_test.username));
+        return Promise.all(promises);
+        // deleteTuitByContent(tuit_test.tuit);
+        // deleteUsersByUsername(user_test.username);
+        // return;
     });
 
     test('can delete tuit wtih REST API', async () => {
@@ -145,7 +149,7 @@ describe('can retrieve a tuit by their primary key with REST API', () => {
         expect(existingTuit.postedBy).toEqual(newUser);
         expect(existingTuit.postedOn).toEqual(tuit_test.postedOn);
 
-        await deleteUsersByUsername(user_test.username);
+        // await deleteUsersByUsername(user_test.username);
     });
 });
 
